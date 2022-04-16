@@ -1,0 +1,8 @@
+.card {
+    height: 500px;
+}
+
+.card:hover {
+    box-sizing: border-box;
+    box-shadow: 2px 8px 8px 10px lightgray;
+}
