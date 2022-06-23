@@ -12,6 +12,13 @@ const firebaseConfig = {
     storageBucket: "red-onion-59d4d.appspot.com",
     messagingSenderId: "722043266623",
     appId: "1:722043266623:web:1f1f574b994127810dba8a"
+
+    // apiKey: process.env.REACT_APP_apiKey,
+    // authDomain: process.env.REACT_APP_authDomain,
+    // projectId: process.env.REACT_APP_projectId,
+    // storageBucket: process.env.REACT_APP_storageBucket,
+    // messagingSenderId: process.env.REACT_APP_messagingSenderId,
+    // appId: process.env.REACT_APP_appId
 };
 
 // Initialize Firebase
