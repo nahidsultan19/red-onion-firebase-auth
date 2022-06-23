@@ -1,15 +1,37 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useAuthState, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import SocialLogin from '../SocialLogin/SocialLogin';
+import Loading from '../Shared/Loading';
+import { useEffect } from 'react';
 
 const Login = () => {
+    const [user] = useAuthState(auth)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const [signInWithEmailAndPassword, user, loading, error,] = useSignInWithEmailAndPassword(auth);
+    const [signInWithEmailAndPassword, user1, loading, error,] = useSignInWithEmailAndPassword(auth);
+
+    let errorElement;
+
+    const navigate = useNavigate()
+    const location = useLocation()
+    const from = location.state?.from?.pathname || "/"
+
+    useEffect(() => {
+        if (user) {
+            navigate(from, { replace: true })
+        }
+    }, [from, navigate, user])
+
+    if (loading) {
+        return <Loading />
+    }
+    if (error) {
+        errorElement = <p className='text-danger'>{error?.message}</p>
+    }
 
     const handleEmailChange = event => {
         setEmail(event.target.value);
@@ -21,6 +43,7 @@ const Login = () => {
     const handleSignIn = event => {
         event.preventDefault();
         signInWithEmailAndPassword(email, password);
+
 
     }
 
@@ -40,6 +63,7 @@ const Login = () => {
                         <Form.Control onBlur={handlePasswordChange} type="password" placeholder="Password" />
                     </Form.Group>
                     <p>Forget Password?<button className='btn btn-link text-decoration-none'>Reset Password</button> </p>
+                    {errorElement}
                     <Button variant="primary w-100" type="submit">
                         Login
                     </Button>

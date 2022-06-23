@@ -28,11 +28,15 @@ const Header = () => {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="ms-auto">
+                            <Nav.Link as={Link} to='/home'>Home</Nav.Link>
                             <Nav.Link onClick={handleShow}><BsCartPlus></BsCartPlus></Nav.Link>
-                            {user ? <button onClick={logOut} className='btn btn-link text-decoration-none'>Logout</button> : <Nav.Link as={Link} to="/login">Login</Nav.Link>}
+                            {user ? <button onClick={logOut} className='btn btn-link text-decoration-none'>Logout</button> : <>
+                                <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                                <Nav.Link as={Link} to="/signup" className='btn btn-danger rounded-pill text-white'>Sign Up</Nav.Link>
+                            </>}
                         </Nav>
                         <Nav>
-                            <Nav.Link as={Link} to="/signup" className='btn btn-danger rounded-pill text-white'>Sign Up</Nav.Link>
+
                             <Nav.Link>{user?.displayName}</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
@@ -40,7 +44,7 @@ const Header = () => {
             </Navbar>
             {/* modal */}
 
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} backdrop="static">
                 <Modal.Header closeButton>
                     <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>

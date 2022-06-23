@@ -4,7 +4,13 @@ import './Foods.css';
 
 const Foods = () => {
     const [foods, setFoods] = useState([]);
-    const [selectItems, setSelectItems] = useState([]);
+    const [selectItems, setSelectItems] = useState('');
+    const [breakfast, setBreakFast] = useState([])
+    const [lunch, setLunch] = useState([])
+    const [dinner, setDinner] = useState([])
+    // const [refecth, setRefecth] = useState(false);
+
+
 
     useEffect(() => {
         fetch('data.json')
@@ -12,32 +18,51 @@ const Foods = () => {
             .then(data => setFoods(data))
     }, [])
 
-    const handleBreakFast = () => {
-        const breakfast = foods.filter(food => food.category === 'breakfast');
-        console.log(breakfast);
-        setSelectItems(breakfast)
-    }
-    const handleLunch = () => {
-        const lunch = foods.filter(food => food.category === 'lunch');
-        console.log(lunch);
-        setSelectItems(lunch)
-    }
-    const handleDinner = () => {
-        const dinner = foods.filter(food => food.category === 'dinner');
-        console.log(dinner);
-        setSelectItems(dinner)
-    }
+
+    useEffect(() => {
+        if (selectItems === 'lunch') {
+            const filterItem = foods.filter(food => food.category === selectItems);
+            console.log(filterItem);
+            setLunch(filterItem);
+        }
+        else if (selectItems === 'breakfast') {
+            const filterItem = foods.filter(food => food.category === selectItems);
+            console.log(filterItem);
+            setBreakFast(filterItem);
+        }
+        else if (selectItems === 'dinner') {
+            const filterItem = foods.filter(food => food.category === selectItems);
+            console.log(filterItem);
+            setDinner(filterItem);
+        }
+    }, [selectItems])
+
+
 
     return (
         <div className='container my-4'>
             <div className='navigate-btn w-25 mx-auto'>
-                <button onClick={handleBreakFast} className='btn btn-link text-decoration-none text-black'>Breakfast</button>
-                <button onClick={handleLunch} className='btn btn-link text-decoration-none text-black'>Lunch</button>
-                <button onClick={handleDinner} className='btn btn-link text-decoration-none text-black'>Dinner</button>
+                <button onClick={() => setSelectItems('breakfast')} className='btn btn-link text-decoration-none text-black'>Breakfast</button>
+                <button onClick={() => setSelectItems('lunch')} className='btn btn-link text-decoration-none text-black'>Lunch</button>
+                <button onClick={() => setSelectItems('dinner')} className='btn btn-link text-decoration-none text-black'>Dinner</button>
             </div>
             <div className='row row-cols-1 row-cols-md-3 g-4 mt-4'>
                 {
-                    foods.map(food => <Food key={food.id} food={food}></Food>)
+                    selectItems === '' && foods.map(food => <Food key={food.id} food={food} ></Food>)
+                }
+
+                {
+                    selectItems === 'breakfast' &&
+                    breakfast.map(food => <Food key={food.id} food={food} ></Food>)
+
+                }
+                {
+                    selectItems === 'lunch' &&
+                    lunch.map(food => <Food key={food.id} food={food} ></Food>)
+                }
+                {
+                    selectItems === 'dinner' &&
+                    dinner.map(food => <Food key={food.id} food={food} ></Food>)
                 }
             </div>
         </div>
